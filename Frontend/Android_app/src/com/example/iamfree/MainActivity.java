@@ -73,4 +73,14 @@ public class MainActivity extends Activity {
 			return true;
 		}
 	}
+
+	String get_mac_address()
+	{
+		WifiManager manager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+		WifiInfo info = manager.getConnectionInfo();
+		String address = info.getMacAddress());
+		return address;
+	}
+
+
 }
