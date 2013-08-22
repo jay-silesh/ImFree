@@ -1,38 +1,102 @@
+import receive_packet as rp
+import send_packet as sp
+
+
+
 import thread
 import time
-
 from flask import Flask
 import logging
 import os
 app=Flask(__name__)
 
 
-file_handler = logging.FileHandler(filename='/home/jay/test/erro.log')
+cur_dir=os.getcwd()
+error_file_name=cur_dir+"/error.log"
+file_handler = logging.FileHandler(filename=error_file_name)
 file_handler.setLevel(logging.WARNING)
 app.logger.addHandler(file_handler)
 
-a=""
-
-delay_time=2
-
 
 @app.route('/')
-def home():
-	return "hello"
+@app.route('/test')
+def test():
+	return "Hello World"
+
+def start_program():
+	"""
+	Write any background program in this file....
+	"""
+	pass
 
 
-@app.route('/welcome')
-def welcome():	
-	return a
 
-@app.route('/two')
-def two():	
+@app.route('/send_packet')
+def rec_packet_from_device():
+	rp.rec_packet()
+
+
+
+
+
+if __name__=="__main__":
+
 	try:
-		thread.start_new_thread( print_time, ("Request2",300,400, ) )
+		thread.start_new_thread( start_program, ( ) )
 	except:
-		print "Error : unable to run Request2"
-	return "Requested to start the thread..."
+		print "Error: unable to start Server thread"
+
+
+	print "The connection is going to start now...."
+	port = int(os.environ.get('PORT', 5000))
+	if port == 5000:
+		app.debug = True
+	app.run(host='0.0.0.0',port=port)
+
 	
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""
+
+
 @app.route('/one')
 def one():
 	try:
@@ -42,33 +106,4 @@ def one():
 	return "Requested to start the thread..."
 
 
-# Define a function for the thread
-def print_time( threadName,range1,range2):
-	global a,delay_time
-	for x in range(range1,range2):
-		print "Running the print_time function with -->",threadName
-		time.sleep(delay_time)
-		a+=str(x)
-		a+=","
-
-
-
-
-if __name__=="__main__":
-
-	print "Starting now..."
-	port = int(os.environ.get('PORT', 5000))
-	if port == 5000:
-		app.debug = True
-	
-	try:
-		thread.start_new_thread( print_time, ("Thread1",0,100, ) )
-	except:
-		print "Error: unable to start thread"
-	
-
-	print "Printing this after the thread is activated"
-
-	app.run(host='0.0.0.0',port=port)
-
-	
+"""	
