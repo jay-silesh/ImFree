@@ -2,10 +2,11 @@ import receive_packet as rp
 import send_packet as sp
 
 
-
+import json
 import thread
 import time
 from flask import Flask
+import flask
 import logging
 import os
 app=Flask(__name__)
@@ -18,10 +19,21 @@ file_handler.setLevel(logging.WARNING)
 app.logger.addHandler(file_handler)
 
 
+ax="first"
+
 @app.route('/')
 @app.route('/test')
 def test():
+	print "Server working...."
 	return "Hello World"
+
+
+@app.route('/rett')
+def test1():
+	print "Entering rett..."
+	global ax
+	return ax
+
 
 def start_program():
 	"""
@@ -31,10 +43,25 @@ def start_program():
 
 
 
-@app.route('/send_packet')
-def rec_packet_from_device():
-	rp.rec_packet()
+@app.route("/ss", methods=['GET','POST'])
+def updateWPProject():
+	print "\n\n*********************************************Finally connnected!!.*************************************************\n\n"
+	global ax
+	if flask.request.method == 'POST':
+		fname = flask.request.data
+		if fname:
+			try:
+				decoded = json.loads(fname)
+				print json.dumps(decoded, sort_keys=True, indent=4)
+				print "JSON parsing example: ", decoded['mac_address']
+				ax=decoded['mac_address']
+				
+			except (ValueError, KeyError, TypeError):
+				print "JSON format error"
 
+	print "Finsihed without errors!!"
+	return ax
+    		
 
 
 
