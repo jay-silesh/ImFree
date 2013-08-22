@@ -37,7 +37,7 @@ def test1():
 
 def start_program():
 	"""
-	Write any background program in this file....
+	Write any background program in this file...
 	"""
 	pass
 

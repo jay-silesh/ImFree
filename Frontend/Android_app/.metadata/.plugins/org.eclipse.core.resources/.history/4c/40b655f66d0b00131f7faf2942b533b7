@@ -1,0 +1,23 @@
+package com.imfree;
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+
+import javax.net.ssl.HttpsURLConnection;
+
+import android.util.Log;
+
+public class Packet {
+
+	public void send_packet(String json)
+	{
+		new MyAsyncTask().execute(json);
+    }
+}
+	
+	

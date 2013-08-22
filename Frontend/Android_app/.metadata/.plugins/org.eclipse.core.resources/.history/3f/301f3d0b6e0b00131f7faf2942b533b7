@@ -1,0 +1,63 @@
+package com.imfree;
+
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+
+import javax.net.ssl.HttpsURLConnection;
+
+import android.os.AsyncTask;
+import android.util.Log;
+
+public class Packet {
+
+	public void send_packet(String json)
+	{
+		new MyAsyncTask().execute(json);
+    }
+
+
+	private class MyAsyncTask extends AsyncTask<String, Integer, Double>{
+		 
+		@Override
+		protected Double doInBackground(String... params) {
+			// TODO Auto-generated method stub
+			postData(params[0]);
+			return null;
+		}
+ 
+		protected void onPostExecute(Double result){
+			Toast.makeText(getApplicationContext(), "command sent", Toast.LENGTH_LONG).show();
+		}
+		
+ 
+		public void postData(String valueIWantToSend) {
+			// Create a new HttpClient and Post Header
+			HttpClient httpclient = new DefaultHttpClient();
+			HttpPost httppost = new HttpPost("http://somewebsite.com/receiver.php");
+ 
+			try {
+				// Add your data
+				List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+				nameValuePairs.add(new BasicNameValuePair("myHttpData", valueIWantToSend));
+				httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+ 
+				// Execute HTTP Post Request
+				HttpResponse response = httpclient.execute(httppost);
+ 
+			} catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+			}
+		}
+ 
+	}
+
+}
+	
+	
