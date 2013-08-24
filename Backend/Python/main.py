@@ -43,9 +43,8 @@ def start_program():
 
 
 
-@app.route("/ss", methods=['GET','POST'])
+@app.route("/send_pac", methods=['GET','POST'])
 def updateWPProject():
-	print "\n\n*********************************************Finally connnected!!.*************************************************\n\n"
 	global ax
 	if flask.request.method == 'POST':
 		fname = flask.request.data
@@ -54,7 +53,10 @@ def updateWPProject():
 				decoded = json.loads(fname)
 				print json.dumps(decoded, sort_keys=True, indent=4)
 				print "JSON parsing example: ", decoded['mac_address']
-				ax=decoded['mac_address']
+				ax+="mac_address:"+decoded['mac_address']+"\n"
+				ax+="device_name:"+decoded['device_name']+"\n"
+				ax+="program_type:"+decoded['program_type']+"\n"
+				ax+="packet_type:"+decoded['packet_type']+"\n"
 				
 			except (ValueError, KeyError, TypeError):
 				print "JSON format error"

@@ -32,4 +32,27 @@
         android:layout_marginTop="82dp"
         android:text="Make Request!" />
 
+    <EditText
+        android:id="@+id/editText1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignRight="@+id/button1"
+        android:layout_below="@+id/button1"
+        android:layout_marginTop="37dp"
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/editText1"
+        android:layout_marginLeft="43dp"
+        android:layout_toRightOf="@+id/editText1"
+        android:ems="10"
+        android:inputType="number" />
+
 </RelativeLayout>

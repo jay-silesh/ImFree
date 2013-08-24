@@ -11,8 +11,32 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HTTP;
 
 import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.EditText;
 
 public class Packet {
+
+	private String ip_address,port_no,complete_address;
+	
+	public Packet(String input_ip,String pno) {
+		// TODO Auto-generated constructor stub
+		ip_address=input_ip;
+		port_no=pno;
+		complete_address="http://"+input_ip+":"+port_no+"/";
+		Log.d("Output after the packet is finished",complete_address);
+				
+	}
+	public Packet() {
+		// TODO Auto-generated constructor stub
+	}
+	public void change_address(String input_ip,String input_port)
+	{
+		ip_address=input_ip;
+		port_no=input_port;
+		complete_address="http://"+input_ip+":"+port_no+"/";
+		Log.d("Output after the packet is CHAnged!",complete_address);
+	}
+
 
 	public void send_packet(String json)
 	{
@@ -32,7 +56,9 @@ public class Packet {
 		public void postData(String valueIWantToSend) {
 			// Create a new HttpClient and Post Header
 			HttpClient httpclient = new DefaultHttpClient();
-			HttpPost httppost = new HttpPost("http://10.246.17.158:5000/ss");
+			String send_address=complete_address+"send_pac";
+			Log.d("Address while doing the postaat",send_address);
+			HttpPost httppost = new HttpPost(send_address);
  
 			try {
 				// Add your data

@@ -1,5 +1,7 @@
 package com.imfree;
 
+import java.util.LinkedList;
+
 public class cal_prime {
 
 
@@ -21,19 +23,28 @@ boolean isPrime(int i)
 	}
 	return true;
 }
+
+LinkedList<Integer> get_prime_range(int start,int end)
+{
+	LinkedList<Integer> all_primes=new LinkedList<Integer>();
+	
+	for (int x=start;x<end;x++)
+	{
+		if(isPrime(x))
+			all_primes.add(x);
+	}
+	return all_primes;
+}
+
+LinkedList<Integer> get_prime_range(int start)
+{
+	int end=start+(31250);
+	return get_prime_range(start,end);
+}
+
+
+
 /*
-	def get_prime_range(start,end=-1):
-		
-		if(end==-1):
-			end=start+(31250)
-		print end
-		all_primes=[]
-		for x in range(start,end):
-			if(isPrime(x)):
-				all_primes.append(x)
-		return all_primes,end
-
-
 	def get_prime_time(start_range,cal_time=5):	
 		all_primes=[]
 		import time
