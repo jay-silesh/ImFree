@@ -44,24 +44,21 @@ def start_program():
 
 
 @app.route("/send_pac", methods=['GET','POST'])
-def updateWPProject():
-	global ax
+def rec_pack():
+	temp=""
 	if flask.request.method == 'POST':
 		fname = flask.request.data
 		if fname:
 			try:
 				decoded = json.loads(fname)
-				print json.dumps(decoded, sort_keys=True, indent=4)
-				print "JSON parsing example: ", decoded['mac_address']
-				ax+="mac_address:"+decoded['mac_address']+"\n"
-				ax+="device_name:"+decoded['device_name']+"\n"
-				ax+="program_type:"+decoded['program_type']+"\n"
-				ax+="packet_type:"+decoded['packet_type']+"\n"
-				
+				rp.receive_packet(decoded)
+				temp=decoded['packet_type']
+				temp+="from "+decoded['device_name']				
 			except (ValueError, KeyError, TypeError):
-				print "JSON format error"
+				print "JSON format error in the rec_pac function"
 
-	print "Finsihed without errors!!"
+
+	print "Received a packet of type "+temp
 	return ax
     		
 
