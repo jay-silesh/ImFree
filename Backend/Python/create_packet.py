@@ -1,6 +1,6 @@
 import json
 
-def create_packet(mac_address,device_name,program_type,packet_type,func_call,start,end,data):
+def create_packet(mac_address,device_name,program_type,packet_type,func_call,start,end):
 	temp_dict={"mac_address":mac_address,\
 	"device_name":device_name,\
 	"program_type":program_type,\

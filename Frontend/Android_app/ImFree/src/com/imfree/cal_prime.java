@@ -3,11 +3,14 @@ package com.imfree;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import android.app.Activity;
+import android.util.Log;
+import android.widget.Toast;
+
 public class cal_prime {
 
-
 	
-	//fastest no of primes that can be calculated is 46877
+	
 	
 	
 	
@@ -29,40 +32,30 @@ static ArrayList<String> get_prime_range(int start,int end)
 {
 	
 	ArrayList<String> all_primes=new ArrayList<String>();
+	ArrayList<String> all_data=new ArrayList<String>();
 	
 	for (int x=start;x<end;x++)
 	{
 		if(isPrime(x))
 			all_primes.add(Integer.toString(x));
 	}
+	
+	all_primes.add(Integer.toString(start));
+	all_primes.add(Integer.toString(end));	
 	return all_primes;
 }
 
 static ArrayList<String> get_prime_range(int start)
 {
+	
 	int end=start+(10250);
+	String temp="Start->"+start+"  End->"+end;
+	Log.d("PRIME_CAL",temp);
 	return get_prime_range(start,end);
 }
 
 
 
-/*
-	def get_prime_time(start_range,cal_time=5):	
-		all_primes=[]
-		import time
-		i=start_range
-		flag=True
-		
-		start=time.time()
-		final=0
-		while(final<cal_time):
-			if(isPrime(i)):
-				all_primes.append(i)
-			i+=1
-			final=time.time()-start	
-		return all_primes,i
-	
-*/
 }
 
 

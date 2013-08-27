@@ -13,7 +13,7 @@ public class Rec_packet {
 		
 		
 		HashMap<String,String> processed_packet= process_packet(json);
-		String temp_json_string=MainActivity.create_json(processed_packet.get("packet_type"),Integer.parseInt(processed_packet.get("start_entry")),Integer.parseInt( processed_packet.get("end_entry")));
+		String temp_json_string=MainActivity.create_json(processed_packet.get("packet_type"),Integer.parseInt(processed_packet.get("end_entry")),Integer.parseInt( processed_packet.get("start_entry")));
 		Packet temp_pack=new Packet();
 		temp_pack.send_packet(temp_json_string);
 	}
@@ -23,11 +23,14 @@ public class Rec_packet {
 		HashMap< String, String> temp_map=new HashMap<String, String>();
 		try {
 			JSONObject obj = new JSONObject(json);
-			int end_range=Integer.parseInt( obj.getString("end_entry"));
-			ArrayList<String>temp_ll=cal_prime.get_prime_range(end_range+1);
-			int temp_size=temp_ll.size();
-			temp_map.put("end_entry", temp_ll.get(temp_size-1));
-			temp_map.put("start_entry", temp_ll.get(0));
+			int start_range=Integer.parseInt( obj.getString("start_entry"));
+			ArrayList<String>temp_ll=cal_prime.get_prime_range(start_range);
+			
+			int ll_size=temp_ll.size();
+			temp_map.put("end_entry", temp_ll.get(ll_size-1));
+			temp_map.put("start_entry", temp_ll.get(ll_size-2));
+			temp_ll.remove(ll_size-1);
+			temp_ll.remove(ll_size-2);
 			temp_map.put("device_name", android.os.Build.MODEL);
 			
 			

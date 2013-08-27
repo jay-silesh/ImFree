@@ -13,6 +13,10 @@ from flask import Flask, request, session, g, redirect, url_for, \
 
 from contextlib import closing
 
+
+import db_operations as dbo
+
+
 # configuration
 DATABASE = '/tmp/flaskr.db'
 DEBUG = True
@@ -35,12 +39,13 @@ def init_db():
         with app.open_resource('schema.sql', mode='r') as f:
             db.cursor().executescript(f.read())
         db.commit()
+    print "Finsihed initializing the database...."
+
 
 
 @app.route('/')
 def show_entries():
-    cur = g.db.execute('select end_entry,start_entry,device_name from entries')
-    entries = [dict(end_entry=row[0], start_entry=row[1],device_name=row[2]) for row in cur.fetchall()]
+    entries=dbo.get_data(g)
     return render_template('show_entries.html', entries=entries)
 
 
@@ -57,17 +62,6 @@ def teardown_request(exception):
 
 
 
-@app.route('/add', methods=['POST'])
-def add_entry():
-    g.db.execute('insert into entries (end_entry,start_entry,device_name) values (?, ?,?)',
-                 [request.form['end_entry'], request.form['start_entry'],request.form['device_name']])
-    g.db.commit()
-    flash('New entry was successfully posted!')
-    return redirect(url_for('show_entries'))
-
-
-
-
 @app.route('/test')
 def test():
 	print "Server working...."
@@ -76,27 +70,20 @@ def test():
 
 @app.route("/send_pac", methods=['POST'])
 def rec_pack():
+	print "Entered right"
 	temp=""
 	temp_packet=None
+	decoded=None
 	if flask.request.method == 'POST':
 		fname = flask.request.data
 		if fname:
 			try:
 				decoded = json.loads(fname)
-				temp_packet=rp.receive_packet(decoded)
-				g.db.execute('insert into entries (end_entry,start_entry,device_name) values (?, ?,?)',[flask.request.form['end_entry'], flask.request.form['start_entry'],flask.request.form['device_name']])
-				g.db.commit()
-    
-
+				temp_packet=rp.receive_packet(g,decoded)
 			except (ValueError, KeyError, TypeError):
 				print "JSON format error in the rec_pac function"
-
-
-
 	return temp_packet
     		
-
-
 
 
 if __name__=="__main__":

@@ -1,0 +1,43 @@
+package com.imfree;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class Rec_packet {
+
+	public static void rec_packet(String json)
+	{	
+		
+		
+		HashMap<String,String> processed_packet= process_packet(json);
+		String temp_json_string=MainActivity.create_json(processed_packet.get("packet_type"),Integer.parseInt(processed_packet.get("start_entry")),Integer.parseInt( processed_packet.get("end_entry")));
+		Packet temp_pack=new Packet();
+		temp_pack.send_packet(temp_json_string);
+	}
+
+	 static HashMap<String, String> process_packet(String json) {
+		// TODO Auto-generated method stub
+		HashMap< String, String> temp_map=new HashMap<String, String>();
+		try {
+			JSONObject obj = new JSONObject(json);
+			int start_range=Integer.parseInt( obj.getString("start_entry"));
+			ArrayList<String>temp_ll=cal_prime.get_prime_range(end_range+1);
+			int temp_size=temp_ll.size();
+			temp_map.put("end_entry", temp_ll.get(temp_size-1));
+			temp_map.put("start_entry", temp_ll.get(0));
+			temp_map.put("device_name", android.os.Build.MODEL);
+			
+			
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+		temp_map.put("packet_type", "2");
+		return temp_map;
+	}
+
+	
+}

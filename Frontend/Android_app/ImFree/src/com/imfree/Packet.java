@@ -1,5 +1,6 @@
 package com.imfree;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,8 +10,11 @@ import java.util.LinkedList;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.InputStreamEntity;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HTTP;
@@ -21,6 +25,7 @@ import android.R.integer;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class Packet {
 
@@ -32,7 +37,7 @@ public class Packet {
 		port_no=MainActivity.temp_input_port;
 		complete_address="http://"+ip_address+":"+port_no+"/";
 		Log.d("Output after the packet is finished",complete_address);
-				
+
 	}
 	
 	
@@ -66,10 +71,19 @@ public class Packet {
 	            httppost.setEntity(se);
  
 				// Execute HTTP Post Request
-				HttpResponse response = httpclient.execute(httppost);
- 
-				System.out.println(response.toString());
+				ResponseHandler<String> responseHandler=new BasicResponseHandler();
+				
+				String response = httpclient.execute(httppost,responseHandler);
+				JSONObject response_body = null;
+				try {
+					response_body = new JSONObject(response);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 				Rec_packet.rec_packet(response.toString());
+				
 				
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block

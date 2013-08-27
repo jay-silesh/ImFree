@@ -43,11 +43,6 @@ public class MainActivity extends Activity {
 		{
 			text.setText(checkk);
 		}
-		
-		
-		 
-		
-		
 		Button but1=(Button) findViewById(R.id.button1);
 		but1.setOnClickListener(new View.OnClickListener() {
 			
@@ -57,10 +52,6 @@ public class MainActivity extends Activity {
 				temp_input_ip=edittext_ip.getText().toString();
 				temp_input_port=edittext_port.getText().toString();
 				final Packet pac=new Packet();
-				
-				//String temp="Changing address to\n"+temp_input_ip+":"+temp_input_port;
-				//Toast.makeText(getApplicationContext(),temp,Toast.LENGTH_LONG).show();
-				//pac.change_address(temp_input_ip, temp_input_port);
 				pac.send_packet(send_json);
 			}
 		});
@@ -70,7 +61,7 @@ public class MainActivity extends Activity {
 	
 	}
 
-	public static String create_json(String packet_type,int start_entry,int end_entry) {
+	public static String create_json(String packet_type,int end_entry,int start_entry) {
 		// TODO Auto-generated method stub
 		try {
             JSONObject parent=new JSONObject();
@@ -79,8 +70,8 @@ public class MainActivity extends Activity {
 			parent.put("device_name",android.os.Build.MODEL);
 			parent.put("program_type","1");
 			parent.put("packet_type",packet_type);
-			parent.put("end_entry",start_entry);
-			parent.put("start_entry",end_entry);
+			parent.put("end_entry",end_entry);
+			parent.put("start_entry",start_entry);
 			
 
 			/*
