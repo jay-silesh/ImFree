@@ -69,7 +69,7 @@ public class Packet {
 				HttpResponse response = httpclient.execute(httppost);
  
 				System.out.println(response.toString());
-				Rec_packet.rec_packet(response.toString());
+				rec_packet(response.toString());
 				
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block

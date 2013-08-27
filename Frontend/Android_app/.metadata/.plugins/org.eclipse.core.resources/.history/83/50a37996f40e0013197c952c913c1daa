@@ -74,6 +74,7 @@ public class MainActivity extends Activity {
 		// TODO Auto-generated method stub
 		try {
             JSONObject parent=new JSONObject();
+            MainActivity m =new MainActivity();
             
             parent.put("mac_address","0000000");
 			parent.put("device_name",android.os.Build.MODEL);

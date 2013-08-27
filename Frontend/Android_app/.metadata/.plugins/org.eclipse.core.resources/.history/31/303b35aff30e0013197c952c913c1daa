@@ -74,8 +74,9 @@ public class MainActivity extends Activity {
 		// TODO Auto-generated method stub
 		try {
             JSONObject parent=new JSONObject();
+            //MainActivity m =new MainActivity();
             
-            parent.put("mac_address","0000000");
+            parent.put("mac_address","0");
 			parent.put("device_name",android.os.Build.MODEL);
 			parent.put("program_type","1");
 			parent.put("packet_type",packet_type);
@@ -122,7 +123,15 @@ public class MainActivity extends Activity {
 	}
 
 	
-	
+	public String get_mac(){
+		
+		WifiManager manager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+
+		WifiInfo info = manager.getConnectionInfo();
+		String address = (info.getMacAddress()).toString();
+		Log.d("MAC ADD:",address);
+		return address;
+	}
 	
 	
 

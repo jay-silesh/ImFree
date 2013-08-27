@@ -34,7 +34,8 @@ public class Rec_packet {
 		} catch (JSONException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}		
+		}
+		
 		temp_map.put("packet_type", "2");
 		return temp_map;
 	}

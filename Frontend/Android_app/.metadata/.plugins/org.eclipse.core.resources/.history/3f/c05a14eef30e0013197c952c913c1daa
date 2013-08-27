@@ -1,0 +1,20 @@
+package com.imfree;
+
+import android.content.Context;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.util.Log;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+
+public class get_mac {
+
+public static String get_mac(){
+		WifiManager manager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+		WifiInfo info = manager.getConnectionInfo();
+		String address = (info.getMacAddress()).toString();
+		Log.d("MAC ADD:",address);
+		return address;
+	}
+	
+}

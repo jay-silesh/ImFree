@@ -74,7 +74,7 @@ def test():
 	return "Hello World"
 
 
-@app.route("/send_pac", methods=['GET','POST'])
+@app.route("/send_pac", methods=['POST'])
 def rec_pack():
 	temp=""
 	temp_packet=None
@@ -84,11 +84,15 @@ def rec_pack():
 			try:
 				decoded = json.loads(fname)
 				temp_packet=rp.receive_packet(decoded)
+				g.db.execute('insert into entries (end_entry,start_entry,device_name) values (?, ?,?)',[flask.request.form['end_entry'], flask.request.form['start_entry'],flask.request.form['device_name']])
+				g.db.commit()
+    
+
 			except (ValueError, KeyError, TypeError):
 				print "JSON format error in the rec_pac function"
 
 
-	
+
 	return temp_packet
     		
 
@@ -107,41 +111,3 @@ if __name__=="__main__":
 	app.run(host='0.0.0.0',port=port)
 
 	
-
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

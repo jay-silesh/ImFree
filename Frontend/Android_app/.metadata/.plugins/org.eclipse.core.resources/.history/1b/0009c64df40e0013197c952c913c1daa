@@ -1,0 +1,14 @@
+package com.imfree;
+
+import android.content.Context;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.util.Log;
+
+public class get_mac {
+
+public static String get_mac(){
+	Utils.getMACAddress("wlan0");
+	}
+	
+}
