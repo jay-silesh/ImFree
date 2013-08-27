@@ -1,0 +1,2 @@
+The files inside the static folder are available to users of the application via HTTP. This is the place where css and javascript files go. 
+Inside the templates folder Flask will look for Jinja2 templates. The templates you create later in the tutorial will go in this 

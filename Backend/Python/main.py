@@ -1,7 +1,5 @@
 import receive_packet as rp
 import send_packet as sp
-
-
 import json
 import thread
 import time
@@ -9,8 +7,17 @@ from flask import Flask
 import flask
 import logging
 import os
-app=Flask(__name__)
+import sqlite3
+from flask import Flask, request, session, g, redirect, url_for, \
+     abort, render_template, flash
 
+from contextlib import closing
+
+# configuration
+DATABASE = '/tmp/flaskr.db'
+DEBUG = True
+app=Flask(__name__)
+app.config.from_object(__name__)
 
 cur_dir=os.getcwd()
 error_file_name=cur_dir+"/error.log"
@@ -19,61 +26,81 @@ file_handler.setLevel(logging.WARNING)
 app.logger.addHandler(file_handler)
 
 
-ax="first"
+def connect_db():
+	return sqlite3.connect(app.config['DATABASE'])
+
+@app.route('/reset')
+def init_db():
+    with closing(connect_db()) as db:
+        with app.open_resource('schema.sql', mode='r') as f:
+            db.cursor().executescript(f.read())
+        db.commit()
+
 
 @app.route('/')
+def show_entries():
+    cur = g.db.execute('select end_entry,start_entry,device_name from entries')
+    entries = [dict(end_entry=row[0], start_entry=row[1],device_name=row[2]) for row in cur.fetchall()]
+    return render_template('show_entries.html', entries=entries)
+
+
+@app.before_request
+def before_request():
+    g.db = connect_db()
+
+
+@app.teardown_request
+def teardown_request(exception):
+    db = getattr(g, 'db', None)
+    if db is not None:
+        db.close()
+
+
+
+@app.route('/add', methods=['POST'])
+def add_entry():
+    g.db.execute('insert into entries (end_entry,start_entry,device_name) values (?, ?,?)',
+                 [request.form['end_entry'], request.form['start_entry'],request.form['device_name']])
+    g.db.commit()
+    flash('New entry was successfully posted!')
+    return redirect(url_for('show_entries'))
+
+
+
+
 @app.route('/test')
 def test():
 	print "Server working...."
 	return "Hello World"
 
 
-@app.route('/rett')
-def test1():
-	print "Entering rett..."
-	global ax
-	return ax
-
-
-def start_program():
-	"""
-	Write any background program in this file...
-	"""
-	pass
-
-
-
 @app.route("/send_pac", methods=['GET','POST'])
 def rec_pack():
 	temp=""
+	temp_packet=None
 	if flask.request.method == 'POST':
 		fname = flask.request.data
 		if fname:
 			try:
 				decoded = json.loads(fname)
-				rp.receive_packet(decoded)
-				temp=decoded['packet_type']
-				temp+="from "+decoded['device_name']				
+				temp_packet=rp.receive_packet(decoded)
 			except (ValueError, KeyError, TypeError):
 				print "JSON format error in the rec_pac function"
 
 
-	print "Received a packet of type "+temp
-	return ax
+	
+	return temp_packet
     		
 
 
 
 
 if __name__=="__main__":
+	
+	if(not os.path.isfile(DATABASE)):
+		print "Initializing the DB"
+		init_db()
 
-	try:
-		thread.start_new_thread( start_program, ( ) )
-	except:
-		print "Error: unable to start Server thread"
-
-
-	print "The connection is going to start now...."
 	port = int(os.environ.get('PORT', 5000))
 	if port == 5000:
 		app.debug = True
@@ -118,18 +145,3 @@ if __name__=="__main__":
 
 
 
-
-
-"""
-
-
-@app.route('/one')
-def one():
-	try:
-		thread.start_new_thread( print_time, ("Request1",100,200, ) )
-	except:
-		print "Error: unable to run request1"
-	return "Requested to start the thread..."
-
-
-"""	

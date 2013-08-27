@@ -2,10 +2,10 @@ import create_packet as cp
 import DEFS
 
 
+def first_packet():
+	return cp.create_packet("00:00:00:00:00","Python_server","Prime","1","NULL",100,90000)
+
 
 def receive_packet(packet_data):
 	if(packet_data['packet_type']==DEFS.INITIAL_PACKET):
-		cba,csa,cbaduc,cndu=get_info()
-		cp.create_packet(DEFS.mac_adress,DEFS.device_name,)
-		def create_packet(mac_address,device_name,program_type,packet_type,func_call,start,end,data):
-
+		return first_packet()

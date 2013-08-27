@@ -1,6 +1,11 @@
 package com.imfree;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.LinkedList;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -9,7 +14,10 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.protocol.HTTP;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import android.R.integer;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.EditText;
@@ -20,15 +28,17 @@ public class Packet {
 	
 	public Packet(String input_ip,String pno) {
 		// TODO Auto-generated constructor stub
-		ip_address=input_ip;
-		port_no=pno;
-		complete_address="http://"+input_ip+":"+port_no+"/";
+		ip_address=MainActivity.temp_input_ip;
+		port_no=MainActivity.temp_input_port;
+		complete_address="http://"+ip_address+":"+port_no+"/";
 		Log.d("Output after the packet is finished",complete_address);
 				
 	}
+	
 	public Packet() {
-		// TODO Auto-generated constructor stub
+		this.change_address(MainActivity.temp_input_ip,MainActivity.temp_input_port);
 	}
+	
 	public void change_address(String input_ip,String input_port)
 	{
 		ip_address=input_ip;
@@ -42,8 +52,7 @@ public class Packet {
 	{
 		new MyAsyncTask().execute(json);
     }
-
-
+	
 	private class MyAsyncTask extends AsyncTask<String, Integer, Double>{
 		 
 		@Override
@@ -69,12 +78,22 @@ public class Packet {
 				// Execute HTTP Post Request
 				HttpResponse response = httpclient.execute(httppost);
  
+				System.out.println(response.toString());
+				//rec_packet(response.toString());
+				
 			} catch (ClientProtocolException e) {
 				// TODO Auto-generated catch block
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 			}
 		}
+		
+		
+		
+		
+		
+		
+		
  
 	}
 

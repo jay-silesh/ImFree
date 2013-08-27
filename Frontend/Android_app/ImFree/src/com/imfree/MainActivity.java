@@ -19,11 +19,13 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
+	public static String temp_input_ip;
+	public static String temp_input_port;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		String checkk=check_json();
+		String checkk=create_json("0",0,0);
 		final String send_json=checkk;
 		TextView text=(TextView) findViewById(R.id.textView2);
 		final EditText edittext_ip=(EditText) findViewById(R.id.editText1);
@@ -44,7 +46,7 @@ public class MainActivity extends Activity {
 		
 		
 		 
-		 final Packet pac=new Packet();
+		
 		
 		Button but1=(Button) findViewById(R.id.button1);
 		but1.setOnClickListener(new View.OnClickListener() {
@@ -52,11 +54,12 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				String temp_input_ip=edittext_ip.getText().toString();
-				String temp_input_port=edittext_port.getText().toString();
-				String temp="Changing address to\n"+temp_input_ip+":"+temp_input_port;
-				Toast.makeText(getApplicationContext(),temp,Toast.LENGTH_LONG).show();
-				pac.change_address(temp_input_ip, temp_input_port);
+				final Packet pac=new Packet();
+				//temp_input_ip=edittext_ip.getText().toString();
+				//temp_input_port=edittext_port.getText().toString();
+				//String temp="Changing address to\n"+temp_input_ip+":"+temp_input_port;
+				//Toast.makeText(getApplicationContext(),temp,Toast.LENGTH_LONG).show();
+				//pac.change_address(temp_input_ip, temp_input_port);
 				pac.send_packet(send_json);
 			}
 		});
@@ -66,16 +69,21 @@ public class MainActivity extends Activity {
 	
 	}
 
-	private String check_json() {
+	public static String create_json(String packet_type,int start_entry,int end_entry) {
 		// TODO Auto-generated method stub
 		try {
             JSONObject parent=new JSONObject();
+            MainActivity m =new MainActivity();
             
-            parent.put("mac_address",get_mac());
+            parent.put("mac_address",m.get_mac());
 			parent.put("device_name",android.os.Build.MODEL);
 			parent.put("program_type","1");
-			parent.put("packet_type","X");
+			parent.put("packet_type",packet_type);
+			parent.put("end_entry",start_entry);
+			parent.put("start_entry",end_entry);
 			
+
+			/*
 			JSONObject program_vars=new JSONObject();
 			program_vars.put("func_call","get_time");
 			program_vars.put("start","100");
@@ -93,6 +101,9 @@ public class MainActivity extends Activity {
 			
             Log.d("output", parent.toString(2));
             //return (parent.toString(2));
+            */
+
+
             return parent.toString();
 		} catch (JSONException e) {
             e.printStackTrace();
@@ -112,13 +123,15 @@ public class MainActivity extends Activity {
 
 	
 	public String get_mac(){
+		
 		WifiManager manager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+
 		WifiInfo info = manager.getConnectionInfo();
 		String address = (info.getMacAddress()).toString();
 		Log.d("MAC ADD:",address);
 		return address;
 	}
 	
-
+	
 
 }

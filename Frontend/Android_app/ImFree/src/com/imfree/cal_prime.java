@@ -1,5 +1,6 @@
 package com.imfree;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class cal_prime {
@@ -10,7 +11,7 @@ public class cal_prime {
 	
 	
 	
-boolean isPrime(int i)
+static boolean isPrime(int i)
 {
 	if( (i%2== 0 && (i!=2)) || i==1)
 		return false;
@@ -24,21 +25,22 @@ boolean isPrime(int i)
 	return true;
 }
 
-LinkedList<Integer> get_prime_range(int start,int end)
+static ArrayList<String> get_prime_range(int start,int end)
 {
-	LinkedList<Integer> all_primes=new LinkedList<Integer>();
+	
+	ArrayList<String> all_primes=new ArrayList<String>();
 	
 	for (int x=start;x<end;x++)
 	{
 		if(isPrime(x))
-			all_primes.add(x);
+			all_primes.add(Integer.toString(x));
 	}
 	return all_primes;
 }
 
-LinkedList<Integer> get_prime_range(int start)
+static ArrayList<String> get_prime_range(int start)
 {
-	int end=start+(31250);
+	int end=start+(10250);
 	return get_prime_range(start,end);
 }
 
