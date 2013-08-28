@@ -12,9 +12,8 @@ from flask import Flask, request, session, g, redirect, url_for, \
      abort, render_template, flash
 
 from contextlib import closing
-
-
 import db_operations as dbo
+import DEFS
 
 
 # configuration
@@ -33,15 +32,14 @@ app.logger.addHandler(file_handler)
 def connect_db():
 	return sqlite3.connect(app.config['DATABASE'])
 
+
 @app.route('/reset')
 def init_db():
     with closing(connect_db()) as db:
         with app.open_resource('schema.sql', mode='r') as f:
             db.cursor().executescript(f.read())
         db.commit()
-    print "Finsihed initializing the database...."
-
-
+    print "Finished initializing DB..."
 
 @app.route('/')
 def show_entries():
@@ -52,15 +50,13 @@ def show_entries():
 @app.before_request
 def before_request():
     g.db = connect_db()
-
-
+    
 @app.teardown_request
 def teardown_request(exception):
     db = getattr(g, 'db', None)
     if db is not None:
         db.close()
-
-
+    
 
 @app.route('/test')
 def test():
@@ -79,18 +75,22 @@ def rec_pack():
 		if fname:
 			try:
 				decoded = json.loads(fname)
-				temp_packet=rp.receive_packet(g,decoded)
+			
 			except (ValueError, KeyError, TypeError):
 				print "JSON format error in the rec_pac function"
+	temp_packet=rp.receive_packet(g,decoded)
 	return temp_packet
     		
 
 
 if __name__=="__main__":
+
+	
+	DEFS.init()
 	
 	if(not os.path.isfile(DATABASE)):
 		print "Initializing the DB"
-		init_db()
+	init_db()
 
 	port = int(os.environ.get('PORT', 5000))
 	if port == 5000:

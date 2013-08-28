@@ -31,7 +31,7 @@ public class MainActivity extends Activity {
 		final EditText edittext_ip=(EditText) findViewById(R.id.editText1);
 		final EditText edittext_port=(EditText) findViewById(R.id.editText2);
 		
-		edittext_ip.setText("192.168.0.11");
+		edittext_ip.setText("192.168.0.8");
 		edittext_port.setText("5000");
 		
 		if(checkk==null)

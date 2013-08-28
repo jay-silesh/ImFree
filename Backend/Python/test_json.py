@@ -26,6 +26,12 @@ json_test='{"mac_address":"1.0.0.0.1",\
 try:
     decoded = json.loads(json_test2)
     print json.dumps(decoded, sort_keys=True, indent=4)
-    print "JSON parsing example: ", decoded['mac_address']
+    print "JSON parsing example:************ "#, decoded['mac_address']
+    for x in decoded.keys():
+    	print x,decoded[x]
+
+
+
+
 except (ValueError, KeyError, TypeError):
     print "JSON format error"
