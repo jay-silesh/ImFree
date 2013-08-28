@@ -25,7 +25,7 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		String checkk=create_json("0",0,0);
+		String checkk=create_json("0",0,0,0);
 		final String send_json=checkk;
 		TextView text=(TextView) findViewById(R.id.textView2);
 		final EditText edittext_ip=(EditText) findViewById(R.id.editText1);
@@ -43,8 +43,9 @@ public class MainActivity extends Activity {
 		{
 			text.setText(checkk);
 		}
-		Button but1=(Button) findViewById(R.id.button1);
-		but1.setOnClickListener(new View.OnClickListener() {
+		Button request_button=(Button) findViewById(R.id.button1);
+		Button stop_button=(Button) findViewById(R.id.button2);
+		request_button.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -56,12 +57,19 @@ public class MainActivity extends Activity {
 			}
 		});
 		
-		
+		stop_button.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				System.exit(0);
+			}
+		});
 		
 	
 	}
 
-	public static String create_json(String packet_type,int end_entry,int start_entry) {
+	public static String create_json(String packet_type,int end_entry,int start_entry, long cal_time) {
 		// TODO Auto-generated method stub
 		try {
             JSONObject parent=new JSONObject();
@@ -72,6 +80,7 @@ public class MainActivity extends Activity {
 			parent.put("packet_type",packet_type);
 			parent.put("end_entry",end_entry);
 			parent.put("start_entry",start_entry);
+			parent.put("cal_time",cal_time);
 			
 
 			/*

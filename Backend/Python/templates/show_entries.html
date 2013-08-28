@@ -1,8 +1,26 @@
 {% extends "layout.html" %}
 {% block body %}
+  <ul class=entriess>
+  <h1>Ranking...</h1>
+
+  <ul class=headings>
+  <p><span>Device Name</span><span>Total tasks performed</span><span>Total Computation Time (Secs)</span></p>
+  </ul>
+  {% for entry in entriess %}
+  	
+  <p><span>{{ entry.dev_entry }}</span><span>{{ entry.total_count }}</span><span>{{ entry.total_time }}</span></p>
+  {% else %}
+    <li><em></em>
+  {% endfor %}
+  </ul>
+{% endblock %}
+
+
+{% block body1 %}
   <ul class=entries>
+  	<h1> Computations list..</h1>
   {% for entry in entries %}
-    <p><span>{{ entry.device_name }}</span><span>{{ entry.end_entry }}</span><span>{{ entry.start_entry }}</span></p>
+    <p><span>{{ entry.device_name }}</span><span>{{ entry.end_entry }}</span><span>{{ entry.start_entry }}</span><span>{{ entry.cal_time }}</span></p>
   {% else %}
     <li><em>Unbelievable.  No entries here so far</em>
   {% endfor %}

@@ -44,7 +44,12 @@ def init_db():
 @app.route('/')
 def show_entries():
     entries=dbo.get_data(g)
-    return render_template('show_entries.html', entries=entries)
+    
+   
+    entries2=dbo.get_rank(g)
+
+   
+    return render_template('show_entries.html', entries=entries,entriess=entries2)
 
 
 @app.before_request

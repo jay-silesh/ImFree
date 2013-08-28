@@ -33,12 +33,12 @@ static ArrayList<String> get_prime_range(int start,int end)
 	
 	ArrayList<String> all_primes=new ArrayList<String>();
 	ArrayList<String> all_data=new ArrayList<String>();
-	
 	for (int x=start;x<end;x++)
 	{
 		if(isPrime(x))
 			all_primes.add(Integer.toString(x));
 	}
+	
 	
 	all_primes.add(Integer.toString(start));
 	all_primes.add(Integer.toString(end));	

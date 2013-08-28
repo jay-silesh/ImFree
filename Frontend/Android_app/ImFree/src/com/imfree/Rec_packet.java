@@ -2,6 +2,7 @@ package com.imfree;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,11 +10,13 @@ import org.json.JSONObject;
 public class Rec_packet {
 
 	public static void rec_packet(String json)
-	{	
+	{			
 		
-		
+		long startTime = System.nanoTime();   
 		HashMap<String,String> processed_packet= process_packet(json);
-		String temp_json_string=MainActivity.create_json(processed_packet.get("packet_type"),Integer.parseInt(processed_packet.get("end_entry")),Integer.parseInt( processed_packet.get("start_entry")));
+		long cal_time = System.nanoTime() - startTime;
+		cal_time= TimeUnit.SECONDS.convert(cal_time, TimeUnit.NANOSECONDS);
+		String temp_json_string=MainActivity.create_json(processed_packet.get("packet_type"),Integer.parseInt(processed_packet.get("end_entry")),Integer.parseInt( processed_packet.get("start_entry")),cal_time);
 		Packet temp_pack=new Packet();
 		temp_pack.send_packet(temp_json_string);
 	}

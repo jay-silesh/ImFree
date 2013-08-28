@@ -5,5 +5,6 @@ create table entries (
   start_entry integer not null,
   device_name text not null,
   program_type text,
-  packet_type text
+  packet_type text,
+  cal_time long
 );

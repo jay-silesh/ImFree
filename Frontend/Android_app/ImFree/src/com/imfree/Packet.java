@@ -3,9 +3,11 @@ package com.imfree;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.LinkedList;
+import java.util.Set;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -45,6 +47,11 @@ public class Packet {
 
 	public void send_packet(String json)
 	{
+		/*
+		Set<Thread> threadSet = Thread.getAllStackTraces().keySet();
+		Thread[] threadArray = threadSet.toArray(new Thread[threadSet.size()]);
+		System.out.println(Arrays.toString(threadArray));
+		*/
 		new MyAsyncTask().execute(json);
     }
 	
